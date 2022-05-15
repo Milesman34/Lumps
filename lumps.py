@@ -1,28 +1,25 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import QPoint
 
-import helper_functions as helper, sys
+import helper_functions as helper, enums, sys
+
+from ui_main import Ui_Main
 
 # Class for the main window
-class Lumps(QMainWindow):
+class Lumps(QMainWindow, Ui_Main):
     def __init__(self, width: int, height: int):
         super(Lumps, self).__init__()
+        self.setupUi(self, width, height)
 
-        # Sets the properties of the window
-        self.setGeometry(100, 100, width, height)
-        self.setWindowTitle("Lumps")
+        # Variable that represents the current window page
+        self.current_page = enums.CurrentPage.DICE
 
-        # Dimensions of window
-        self.width = width
-        self.height = height
+        # Current number of points
+        self.points = 0
 
-        # Initializes the UI
-        self.initUI()
-
-    # Initializes the UI
-    def initUI(self):
-        pass
+        # Current number of rolls left
+        self.rolls = 3
 
 # Function for handling the window
 def main_window():
