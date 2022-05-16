@@ -1,12 +1,12 @@
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedLayout, QLabel, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QStackedLayout, QLabel, QWidget, QSizePolicy
 
 import helper_functions as helper, enums, sys
 
 # Class for the main window
 class Lumps(QMainWindow):
-    def __init__(self, width: int, height: int, parent=None):
-        super(Lumps, self).__init__(parent)
+    def __init__(self, width: int, height: int):
+        super(Lumps, self).__init__()
 
         # Sets the properties of the window
         self.setGeometry(100, 100, width, height)
@@ -25,19 +25,36 @@ class Lumps(QMainWindow):
 
     # Initializes the UI
     def initUI(self):
-        # Stacked layout to use
-        layout = QStackedLayout()
+        # Creates the outer layout
+        outerLayout = QVBoxLayout(self)
+        outerLayout.setContentsMargins(0, 0, 0, 0)
 
-        layout.addWidget(QLabel("Dice page"))
-        layout.addWidget(QLabel("Scoreboard page"))
+        # Creates the top object and gives it a border
+        upperTabBar = QLabel("Upper Part")
+        upperTabBar.setStyleSheet("background-color: rgb(235, 235, 235); border-bottom: 2px solid black;")
 
-        layout.setCurrentIndex(1)
+        outerLayout.addWidget(upperTabBar, stretch=1)
+        outerLayout.addWidget(QLabel("Bottom Part"), stretch=19)
 
-        # Central widget
-        widget = QWidget()
-        widget.setLayout(layout)
+        # Creates the main widget
+        mainWidget = QWidget()
+        mainWidget.setLayout(outerLayout)
 
-        self.setCentralWidget(widget)
+        self.setCentralWidget(mainWidget)
+
+        # # Stacked layout to use
+        # layout = QStackedLayout()
+
+        # layout.addWidget(QLabel("Dice page"))
+        # layout.addWidget(QLabel("Scoreboard page"))
+
+        # layout.setCurrentIndex(1)
+
+        # # Central widget
+        # widget = QWidget()
+        # widget.setLayout(layout)
+
+        # self.setCentralWidget(widget)
 
 
 # Function for handling the window
