@@ -1,7 +1,8 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QStackedLayout, QLabel, QWidget, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QTabWidget
 
-import helper_functions as helper, enums, sys
+from widgets.BottomTabButton import BottomTabButton
+
+import enums, sys
 
 # Class for the main window
 class Lumps(QMainWindow):
@@ -27,34 +28,43 @@ class Lumps(QMainWindow):
     def initUI(self):
         # Creates the outer layout
         outerLayout = QVBoxLayout(self)
+
+        # Eliminates the margins between each element
         outerLayout.setContentsMargins(0, 0, 0, 0)
 
-        # Creates the top object and gives it a border
+        # Creates the top bar and gives it a border
         upperTabBar = QLabel("Upper Part")
         upperTabBar.setStyleSheet("background-color: rgb(235, 235, 235); border-bottom: 2px solid black;")
 
+        # Creates the bottom bar and gives it a border
+        bottomTabBar = QWidget()
+        
+        # The object has its own name so that the children do not also get the same styling
+        bottomTabBar.setObjectName("bottomTabBar")
+        bottomTabBar.setStyleSheet("QWidget#bottomTabBar {background-color: rgb(235, 235, 235); border-top: 2px solid black;}")
+        
+        bottomTabBarLayout = QHBoxLayout(self)
+
+        # Creates the two buttons for the bottom tab bar to switch pages
+        self.dicePageButton = BottomTabButton(self, "Dice")
+        self.scoreboardPageButton = BottomTabButton(self, "Scoreboard")
+
+        # Adds the two button widgets to the bottom tab bar
+        bottomTabBarLayout.addWidget(self.dicePageButton)
+        bottomTabBarLayout.addWidget(self.scoreboardPageButton)
+
+        bottomTabBar.setLayout(bottomTabBarLayout)
+
+        # Adds the widgets to the outer layout
         outerLayout.addWidget(upperTabBar, stretch=1)
-        outerLayout.addWidget(QLabel("Bottom Part"), stretch=19)
+        outerLayout.addWidget(QLabel("Middle Part"), stretch=18)
+        outerLayout.addWidget(bottomTabBar, stretch=1)
 
         # Creates the main widget
         mainWidget = QWidget()
         mainWidget.setLayout(outerLayout)
 
         self.setCentralWidget(mainWidget)
-
-        # # Stacked layout to use
-        # layout = QStackedLayout()
-
-        # layout.addWidget(QLabel("Dice page"))
-        # layout.addWidget(QLabel("Scoreboard page"))
-
-        # layout.setCurrentIndex(1)
-
-        # # Central widget
-        # widget = QWidget()
-        # widget.setLayout(layout)
-
-        # self.setCentralWidget(widget)
 
 
 # Function for handling the window
