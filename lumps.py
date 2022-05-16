@@ -1,19 +1,21 @@
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtCore import QPoint
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedLayout, QLabel, QWidget
 
 import helper_functions as helper, enums, sys
 
-from ui_main import Ui_Main
-
 # Class for the main window
-class Lumps(QMainWindow, Ui_Main):
-    def __init__(self, width: int, height: int):
-        super(Lumps, self).__init__()
-        self.setupUi(self, width, height)
+class Lumps(QMainWindow):
+    def __init__(self, width: int, height: int, parent=None):
+        super(Lumps, self).__init__(parent)
 
-        # Variable that represents the current window page
-        self.current_page = enums.CurrentPage.DICE
+        # Sets the properties of the window
+        self.setGeometry(100, 100, width, height)
+        self.setWindowTitle("Lumps")
+        
+        self.initUI()
+
+        # Current page in the app
+        self.current_page = enums.AppPage.DICE
 
         # Current number of points
         self.points = 0
@@ -21,14 +23,31 @@ class Lumps(QMainWindow, Ui_Main):
         # Current number of rolls left
         self.rolls = 3
 
+    # Initializes the UI
+    def initUI(self):
+        # Stacked layout to use
+        layout = QStackedLayout()
+
+        layout.addWidget(QLabel("Dice page"))
+        layout.addWidget(QLabel("Scoreboard page"))
+
+        layout.setCurrentIndex(1)
+
+        # Central widget
+        widget = QWidget()
+        widget.setLayout(layout)
+
+        self.setCentralWidget(widget)
+
+
 # Function for handling the window
 def main_window():
     app = QApplication(sys.argv)
 
     # Creates the new window
     window = Lumps(1280, 720)
-
     window.show()
+
     app.exec()
 
 
