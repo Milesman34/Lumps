@@ -1,3 +1,5 @@
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from widgets.BottomTabButton import BottomTabButton
@@ -27,8 +29,6 @@ class Lumps(QMainWindow):
 
         # Scores from each player
         self.scores = [0] * self.players
-
-        print(self.scores)
         
         self.initUI()
 
@@ -43,6 +43,13 @@ class Lumps(QMainWindow):
         # Creates the top bar and gives it a border
         upperTabBar = QLabel("Upper Part")
         upperTabBar.setStyleSheet("background-color: rgb(235, 235, 235); border-bottom: 2px solid black;")
+
+        # Creates the scores area
+        self.scoresBar = QWidget()
+        self.scoresBar.setObjectName("scoresBar")
+        self.scoresBar.setStyleSheet("QWidget#scoresBar {background-color: rgb(235, 235, 235); border-bottom: 2px solid black;}")
+
+        self.resetScoreElementsLayout()
 
         # Creates the central part of the app
         self.centralPart = QStackedWidget()
@@ -76,7 +83,8 @@ class Lumps(QMainWindow):
 
         # Adds the widgets to the outer layout
         outerLayout.addWidget(upperTabBar, stretch=1)
-        outerLayout.addWidget(self.centralPart, stretch=18)
+        outerLayout.addWidget(self.scoresBar, stretch=1)
+        outerLayout.addWidget(self.centralPart, stretch=17)
         outerLayout.addWidget(bottomTabBar, stretch=1)
 
         # Creates the main widget
@@ -84,3 +92,18 @@ class Lumps(QMainWindow):
         mainWidget.setLayout(outerLayout)
 
         self.setCentralWidget(mainWidget)
+
+    # Resets the score elements by replacing the layout of the scores bar
+    def resetScoreElementsLayout(self):
+        scoresLayout = QHBoxLayout(self)
+
+        # Creates and adds a label for each score
+        for index, score in enumerate(self.scores):
+            label = QLabel(f"Player {index + 1}: {score}")
+
+            label.setFont(QFont("Arial", 15))
+            label.setAlignment(Qt.AlignCenter)
+
+            scoresLayout.addWidget(label)
+
+        self.scoresBar.setLayout(scoresLayout)

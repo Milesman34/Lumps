@@ -35,24 +35,25 @@ class PlayerCountDialog(QDialog):
         # Textbox for user input
         self.textbox = QLineEdit(self)
 
-        layout.addWidget(self.textbox)
-
         # Textbox that tells the user if they inputted something incorrectly
         self.error_text = QLabel("")
         self.error_text.setStyleSheet("color: red;")
 
-        layout.addWidget(self.error_text)
 
         # Button to submit the number of players
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
-        layout.addWidget(buttonBox)
 
         # Action for when the form is accepted
         buttonBox.accepted.connect(self.handleInput)
 
         # Action for when the form is rejected
         buttonBox.rejected.connect(self.reject)
+
+        # Sets up the layout by adding the widgets
+        layout.addWidget(self.textbox)
+        layout.addWidget(self.error_text)
+        layout.addWidget(buttonBox)
 
         # Sets the layout for the dialog
         self.setLayout(layout)
