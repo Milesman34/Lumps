@@ -32,13 +32,14 @@ class Lumps(QMainWindow):
         # Scores from each player
         self.scores = [0] * self.players
 
+        # List of dice to create
+        self.default_dice = [4, 4, 6, 6, 8, 8, 10, 10]
+
         # List of dice, both the available and locked ones
         self.number_of_dice = 8
 
-        self.available_dice = [Die(4), Die(4), Die(6), Die(6), Die(8), Die(8), Die(10), Die(10)]
+        self.available_dice = [Die(d) for d in self.default_dice]
         self.locked_dice = []
-
-        print(self.available_dice)
         
         self.initUI()
 
