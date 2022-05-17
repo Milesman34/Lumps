@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *
 from classes.Die import Die
 
 from widgets.BottomTabButton import BottomTabButton
+from widgets.ScoreBarLabel import ScoreBarLabel
 
 import enums
 
@@ -78,7 +79,6 @@ class Lumps(QMainWindow):
         # The object has its own name so that the children do not also get the same styling
         bottomTabBar.setObjectName("bottomTabBar")
         bottomTabBar.setStyleSheet("QWidget#bottomTabBar {background-color: rgb(235, 235, 235); border-top: 2px solid black;}")
-        bottomTabBar.setContentsMargins(0, 0, 0, 0)
         
         bottomTabBarLayout = QHBoxLayout(self)
 
@@ -108,12 +108,11 @@ class Lumps(QMainWindow):
     def resetScoreElementsLayout(self):
         scoresLayout = QHBoxLayout(self)
 
+        scoresLayout.setContentsMargins(0, 0, 0, 0)
+
         # Creates and adds a label for each score
         for index, score in enumerate(self.scores):
-            label = QLabel(f"Player {index + 1}: {score}")
-
-            label.setFont(QFont("Arial", 15))
-            label.setAlignment(Qt.AlignCenter)
+            label = ScoreBarLabel(index, score)
 
             scoresLayout.addWidget(label)
 

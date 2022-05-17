@@ -76,3 +76,6 @@ class PlayerCountDialog(QDialog):
             else:
                 self.count = value
                 self.close()
+
+        # If the app didn't close, reset the text
+        self.textbox.setText("")
