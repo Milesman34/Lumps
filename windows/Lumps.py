@@ -2,6 +2,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from classes.Die import Die
+
 from widgets.BottomTabButton import BottomTabButton
 
 import enums
@@ -29,6 +31,14 @@ class Lumps(QMainWindow):
 
         # Scores from each player
         self.scores = [0] * self.players
+
+        # List of dice, both the available and locked ones
+        self.number_of_dice = 8
+
+        self.available_dice = [Die(4), Die(4), Die(6), Die(6), Die(8), Die(8), Die(10), Die(10)]
+        self.locked_dice = []
+
+        print(self.available_dice)
         
         self.initUI()
 
