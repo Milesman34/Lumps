@@ -60,7 +60,6 @@ def calculate_lumps_score(dice: List[int]) -> int:
 
     return answer
 
-
-dice = [5, 3, 5, 7, 5, 5, 9, 3, 2]
-
-print(calculate_lumps_score(dice))
+# Determines if a string can be converted to an int
+def str_is_int(string: str) -> bool:
+    return len([ch for ch in string if ch in "-0123456789"]) == len(string)
