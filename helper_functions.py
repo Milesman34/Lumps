@@ -63,3 +63,12 @@ def calculate_lumps_score(dice: List[int]) -> int:
 # Determines if a string can be converted to an int
 def str_is_int(string: str) -> bool:
     return len([ch for ch in string if ch in "-0123456789"]) == len(string)
+
+# Formats the string for the current rolls left
+def format_rolls_left(rolls: int) -> str:
+    if rolls == 0:
+        return "No rolls left"
+    elif rolls == 1:
+        return "1 roll left"
+    else:
+        return f"{rolls} rolls left"

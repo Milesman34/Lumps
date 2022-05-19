@@ -29,6 +29,9 @@ class Lumps(QMainWindow):
         # Current number of rolls left
         self.rolls_left = 3
 
+        # Index of current player
+        self.current_player = 0
+
         # Number of players
         self.players = players
 

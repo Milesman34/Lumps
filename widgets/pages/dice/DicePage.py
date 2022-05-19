@@ -2,6 +2,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from helper_functions import *
+
 # Page for showing the dice and core gameplay
 class DicePage(QFrame):
     def __init__(self, parent):
@@ -10,6 +12,17 @@ class DicePage(QFrame):
         self.parent = parent
 
         self.initUI()
+
+        self.updateLabels()
+
+    # Updates the text on labels
+    def updateLabels(self):
+        self.playerLabel.setText(f"Player {self.parent.current_player + 1}'s turn")
+
+        self.scoreLabel.setText(str(self.parent.points))
+
+        # The rolls may need to be pluralized
+        self.rollsLabel.setText(format_rolls_left(self.parent.rolls_left))
 
     # Initializes the UI
     def initUI(self):
@@ -20,14 +33,14 @@ class DicePage(QFrame):
         infoLayout = QVBoxLayout()
 
         # Creates the widgets that display key information
-        self.playerLabel = QLabel("Player 1's Turn")
+        self.playerLabel = QLabel()
         self.playerLabel.setAlignment(Qt.AlignCenter)
 
-        self.scoreLabel = QLabel("0")
+        self.scoreLabel = QLabel()
         self.scoreLabel.setAlignment(Qt.AlignCenter)
         self.scoreLabel.setFont(QFont("Arial", 18))
 
-        self.rollsLabel = QLabel("3 rolls left")
+        self.rollsLabel = QLabel()
         self.rollsLabel.setAlignment(Qt.AlignCenter)
 
         infoLayout.addWidget(self.playerLabel, stretch=1)
