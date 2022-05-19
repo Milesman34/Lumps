@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import *
 
 from classes.Die import Die
 
-from widgets.BottomTabButton import BottomTabButton
+from widgets.bottom_bar.BottomBar import BottomBar
 from widgets.score_bar.ScoreBar import ScoreBar
 
 import enums
@@ -59,42 +59,23 @@ class Lumps(QMainWindow):
         # Creates the scores area
         self.scoresBar = ScoreBar(self)
 
-        self.scoresBar.setObjectName("scoresBar")
-        self.scoresBar.setStyleSheet("QWidget#scoresBar {background-color: rgb(235, 235, 235); border-bottom: 2px solid black;}")
-
-        # Creates the central part of the app
-        self.centralPart = QStackedWidget()
+        # Creates the widget for the central pages of the app
+        self.centralPageWidget = QStackedWidget()
 
         # Adds the two currently existing pages (pages not implemented yet)
-        self.centralPart.addWidget(QLabel("Dice"))
-        self.centralPart.addWidget(QLabel("Scoreboard"))
+        self.centralPageWidget.addWidget(QLabel("Dice"))
+        self.centralPageWidget.addWidget(QLabel("Scoreboard"))
 
         # Sets the current page
-        self.centralPart.setCurrentIndex(enums.AppPage.DICE.value)
+        self.centralPageWidget.setCurrentIndex(enums.AppPage.DICE.value)
 
-        # Creates the bottom bar and gives it a border
-        bottomTabBar = QFrame()
-        
-        # The object has its own name so that the children do not also get the same styling
-        bottomTabBar.setObjectName("bottomTabBar")
-        bottomTabBar.setStyleSheet("QWidget#bottomTabBar {background-color: rgb(235, 235, 235); border-top: 2px solid black;}")
-        
-        bottomTabBarLayout = QHBoxLayout(self)
-
-        # Creates the two buttons for the bottom tab bar to switch pages
-        self.dicePageButton = BottomTabButton(self, "Dice", enums.AppPage.DICE)
-        self.scoreboardPageButton = BottomTabButton(self, "Scoreboard", enums.AppPage.SCOREBOARD)
-
-        # Adds the two button widgets to the bottom tab bar
-        bottomTabBarLayout.addWidget(self.dicePageButton)
-        bottomTabBarLayout.addWidget(self.scoreboardPageButton)
-
-        bottomTabBar.setLayout(bottomTabBarLayout)
+        # Creates the bottom tab bar
+        bottomTabBar = BottomBar(self)
 
         # Adds the widgets to the outer layout
         outerLayout.addWidget(upperTabBar, stretch=1)
         outerLayout.addWidget(self.scoresBar, stretch=1)
-        outerLayout.addWidget(self.centralPart, stretch=17)
+        outerLayout.addWidget(self.centralPageWidget, stretch=17)
         outerLayout.addWidget(bottomTabBar, stretch=1)
 
         # Creates the main widget

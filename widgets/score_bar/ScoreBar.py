@@ -9,7 +9,14 @@ class ScoreBar(QFrame):
 
         self.parent = parent
 
+        self.initUI()
+
         self.resetLayout()
+
+    # Initializes the UI
+    def initUI(self):
+        self.setObjectName("scoresBar")
+        self.setStyleSheet("QFrame#scoresBar {background-color: rgb(235, 235, 235); border-bottom: 2px solid black;}")
 
     # Resets the layout to match the current scores
     def resetLayout(self):

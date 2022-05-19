@@ -2,7 +2,6 @@ from PyQt5 import QtWidgets
 
 from enums import AppPage
 
-
 class BottomTabButton(QtWidgets.QPushButton):
     def __init__(self, parent, text, app_page: AppPage):
         super(BottomTabButton, self).__init__(parent)
@@ -13,4 +12,4 @@ class BottomTabButton(QtWidgets.QPushButton):
         self.setStyleSheet("background-color: rgb(235, 235, 235);")
 
         # Adds the on-click event
-        self.clicked.connect(lambda e: parent.centralPart.setCurrentIndex(app_page.value))
+        self.clicked.connect(lambda e: parent.centralPageWidget.setCurrentIndex(app_page.value))

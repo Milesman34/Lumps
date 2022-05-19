@@ -1,0 +1,7 @@
+__pycache__/**
+widgets/__pycache__/**
+designs/**
+windows/__pycache__/**
+classes/__pycache__/**
+widgets/score_bar/__pycache__/**
+widgets/bottom_bar/__pycache__/**
