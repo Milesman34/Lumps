@@ -7,6 +7,8 @@ from classes.Die import Die
 from widgets.bottom_bar.BottomBar import BottomBar
 from widgets.score_bar.ScoreBar import ScoreBar
 
+from widgets.pages.dice.DicePage import DicePage
+
 import enums
 
 # Class for the main window
@@ -63,7 +65,9 @@ class Lumps(QMainWindow):
         self.centralPageWidget = QStackedWidget()
 
         # Adds the two currently existing pages (pages not implemented yet)
-        self.centralPageWidget.addWidget(QLabel("Dice"))
+        self.dicePage = DicePage(self)
+
+        self.centralPageWidget.addWidget(self.dicePage)
         self.centralPageWidget.addWidget(QLabel("Scoreboard"))
 
         # Sets the current page
