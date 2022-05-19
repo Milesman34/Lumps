@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import *
 from classes.Die import Die
 
 from widgets.BottomTabButton import BottomTabButton
-from widgets.ScoreBarLabel import ScoreBarLabel
+from widgets.score_bar.ScoreBar import ScoreBar
 
 import enums
 
@@ -57,11 +57,10 @@ class Lumps(QMainWindow):
         upperTabBar.setStyleSheet("background-color: rgb(235, 235, 235); border-bottom: 2px solid black;")
 
         # Creates the scores area
-        self.scoresBar = QWidget()
+        self.scoresBar = ScoreBar(self)
+
         self.scoresBar.setObjectName("scoresBar")
         self.scoresBar.setStyleSheet("QWidget#scoresBar {background-color: rgb(235, 235, 235); border-bottom: 2px solid black;}")
-
-        self.resetScoreElementsLayout()
 
         # Creates the central part of the app
         self.centralPart = QStackedWidget()
@@ -74,7 +73,7 @@ class Lumps(QMainWindow):
         self.centralPart.setCurrentIndex(enums.AppPage.DICE.value)
 
         # Creates the bottom bar and gives it a border
-        bottomTabBar = QWidget()
+        bottomTabBar = QFrame()
         
         # The object has its own name so that the children do not also get the same styling
         bottomTabBar.setObjectName("bottomTabBar")
@@ -103,17 +102,3 @@ class Lumps(QMainWindow):
         mainWidget.setLayout(outerLayout)
 
         self.setCentralWidget(mainWidget)
-
-    # Resets the score elements by replacing the layout of the scores bar
-    def resetScoreElementsLayout(self):
-        scoresLayout = QHBoxLayout(self)
-
-        scoresLayout.setContentsMargins(0, 0, 0, 0)
-
-        # Creates and adds a label for each score
-        for index, score in enumerate(self.scores):
-            label = ScoreBarLabel(index, score)
-
-            scoresLayout.addWidget(label)
-
-        self.scoresBar.setLayout(scoresLayout)

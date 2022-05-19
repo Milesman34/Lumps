@@ -3,7 +3,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 # This class represents an entry in the score bar for showing the scores
-class ScoreBarLabel(QWidget):
+class ScoreBarLabel(QFrame):
     def __init__(self, index: int, score: int):
         super().__init__()
 
