@@ -45,8 +45,8 @@ class Lumps(QMainWindow):
         # List of dice, both the available and locked ones
         self.number_of_dice = 8
 
-        self.available_dice = []
-        self.locked_dice = []
+        self.dice = []
+        self.reset_dice()
 
         # Is a turn taking place
         self.is_turn_occurring = False
@@ -96,9 +96,9 @@ class Lumps(QMainWindow):
 
         self.setCentralWidget(mainWidget)
 
-    # Populates the list of available dice
-    def populate_available_dice(self):
-        self.available_dice = [Die(i) for i in self.default_dice]
+    # Resets the values of the current dice
+    def reset_dice(self):
+        self.dice = [Die(i) for i in self.default_dice]
 
     # Returns if the player has rolls remaining
     def has_rolls_remaining(self):
@@ -109,12 +109,18 @@ class Lumps(QMainWindow):
         # If there is no turn occurring, then it needs to populate the list of available dice
         if not self.is_turn_occurring:
             self.is_turn_occurring = True
-            self.populate_available_dice()
+            self.reset_dice()
+        else:
+            # Lock any dice that are currently marked as locked via the widget
+            # Moves them to the list of locked dice
+            for die in self.dice:
+                if die.temp_locked:
+                    die.locked = True
         
         self.rolls_left -= 1
         self.roll_available()
 
-        self.points = calculate_lumps_score(self.available_dice + self.locked_dice)
+        self.points = calculate_lumps_score(self.dice)
 
         # Updates information labels on the dice page
         self.dicePage.updateUI()
@@ -143,7 +149,6 @@ class Lumps(QMainWindow):
 
     # Rolls all the available dice
     def roll_available(self):
-        for die in self.available_dice:
-            die.roll()
-
-        self.available_dice = sorted(self.available_dice, key=lambda e: (e.value, e.sides))
+        for die in self.dice:
+            if not die.locked:
+                die.roll()

@@ -7,6 +7,9 @@ class Die:
         self.value = -1
         self.locked = False
 
+        # Temporary locked value for GUI purposes
+        self.temp_locked = False
+
     def __repr__(self):
         return f"die(sides={self.sides}, value={self.value})"
 

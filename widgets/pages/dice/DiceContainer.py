@@ -23,9 +23,10 @@ class DiceContainer(QFrame):
         layout = QHBoxLayout()
         layout.setAlignment(Qt.AlignTop | Qt.AlignCenter)
 
-        # The locked dice go first
-        for die in self.parent.locked_dice + self.parent.available_dice:
-            layout.addWidget(DieWidget(self.parent, die))
+        # The widgets should only be added if there is a turn occurring
+        if self.parent.is_turn_occurring:
+            for die in sort_dice(self.parent.dice):
+                layout.addWidget(DieWidget(self.parent, die))
 
         self.setLayout(layout)
 

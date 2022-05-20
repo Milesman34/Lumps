@@ -89,3 +89,8 @@ def create_push_button(parent, text: str, size: int=12) -> QPushButton:
 # Adds a spacer to a layout
 def add_spacer(layout, stretch: int=1):
     layout.addWidget(QFrame(), stretch=stretch)
+
+# Sorts a list of dice
+def sort_dice(ls: List["Dice"]) -> List["Dice"]:
+    # The boolean is flipped so that locked dice go first
+    return sorted(ls, key=lambda e: (not e.locked, e.value, e.sides))
