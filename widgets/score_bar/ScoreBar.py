@@ -11,7 +11,7 @@ class ScoreBar(QFrame):
 
         self.initUI()
 
-        self.update_UI()
+        self.updateUI()
 
     # Initializes the UI
     def initUI(self):
@@ -19,15 +19,19 @@ class ScoreBar(QFrame):
         self.setStyleSheet("QFrame#scoresBar {background-color: rgb(235, 235, 235); border-bottom: 2px solid black;}")
 
     # Updates the UI to match the current scores
-    def update_UI(self):
-        scoresLayout = QHBoxLayout(self)
+    def updateUI(self):
+        # Get rid of the original layout
+        if self.layout() is not None:
+            QWidget().setLayout(self.layout())
 
-        scoresLayout.setContentsMargins(0, 0, 0, 0)
+        layout = QHBoxLayout(self)
+
+        layout.setContentsMargins(0, 0, 0, 0)
 
         # Creates and adds a label for each score
         for index, score in enumerate(self.parent.scores):
             label = ScoreBarLabel(index, score)
 
-            scoresLayout.addWidget(label)
+            layout.addWidget(label)
 
-        self.setLayout(scoresLayout)
+        self.setLayout(layout)

@@ -121,10 +121,19 @@ class Lumps(QMainWindow):
 
     # Ends the current player's turn
     def end_turn(self):
+        # Adds the current running score to the current player's score
+        self.scores[self.current_player] += self.points
+
+        # Updates who the player is
         self.current_player = (self.current_player + 1) % self.players
+
+        # Updates key values related to the current turn
+        self.points = 0
         self.rolls_left = 3
 
         self.is_turn_occurring = False
+
+        self.scoresBar.updateUI()
 
         # Clears out the list of dice
         self.available_dice = []
