@@ -3,6 +3,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from classes.Die import Die
+from helper_functions import calculate_lumps_score
 
 from widgets.bottom_bar.BottomBar import BottomBar
 from widgets.score_bar.ScoreBar import ScoreBar
@@ -44,7 +45,7 @@ class Lumps(QMainWindow):
         # List of dice, both the available and locked ones
         self.number_of_dice = 8
 
-        self.available_dice = [Die(d) for d in self.default_dice]
+        self.available_dice = []
         self.locked_dice = []
 
         # Is a turn taking place
@@ -95,9 +96,33 @@ class Lumps(QMainWindow):
 
         self.setCentralWidget(mainWidget)
 
+    # Populates the list of available dice
+    def populate_available_dice(self):
+        self.available_dice = [Die(i) for i in self.default_dice]
+
+    # Attempts to roll the dice
+    def roll_dice(self):
+        # If there is no turn occurring, then it needs to populate the list of available dice
+        if not self.is_turn_occurring:
+            self.is_turn_occurring = True
+            self.populate_available_dice()
+
+        # If there are no rolls left, then move to the next player
+        if self.rolls_left == 0:
+            self.current_player = (self.current_player + 1) % self.players
+            self.rolls_left = 3
+        
+        self.rolls_left -= 1
+        self.roll_available()
+
+        self.points = calculate_lumps_score(self.available_dice + self.locked_dice)
+
+        # Updates information labels on the dice page
+        self.dicePage.updateUI()
+
     # Rolls all the available dice
     def roll_available(self):
         for die in self.available_dice:
             die.roll()
 
-        self.available_dice = sorted(self.available_dice, key=lambda e: e.value)
+        self.available_dice = sorted(self.available_dice, key=lambda e: (e.value, e.sides))

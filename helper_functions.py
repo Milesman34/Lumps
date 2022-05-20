@@ -25,7 +25,9 @@ def is_all_even_or_odd(ls: List[int]) -> bool:
 # 6 points for all evens or all odds
 # 10 points for run of 6, 20 for run of 7, 30 for run of 8
 # 10 points for 6 of a kind, 20 points for 7 of a kind, 30 points for 8 of a kind
-def calculate_lumps_score(dice: List[int]) -> int:
+def calculate_lumps_score(dice: List["Dice"]) -> int:
+    dice = [i.value for i in dice]
+
     # Gets a sorted list of unique dice to help find runs
     unique_dice = list(set(sorted(dice)))
 

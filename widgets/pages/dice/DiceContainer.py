@@ -3,17 +3,23 @@ from PyQt5.QtWidgets import *
 
 from widgets.pages.dice.DieWidget import DieWidget
 
+from helper_functions import *
+
 # This widget contains all the dice for the game
 class DiceContainer(QFrame):
     def __init__(self, parent):
-        super(DiceContainer, self).__init__()
+        super(DiceContainer, self).__init__(parent)
 
         self.parent = parent
 
-        self.resetLayout()
+        self.updateUI()
 
-    # Resets the layout to show the current dice
-    def resetLayout(self):
+    # Updates the UI to show the current dice
+    def updateUI(self):
+        # Get rid of the original layout
+        if self.layout() is not None:
+            QWidget().setLayout(self.layout())
+
         layout = QHBoxLayout()
         layout.setAlignment(Qt.AlignTop | Qt.AlignCenter)
 

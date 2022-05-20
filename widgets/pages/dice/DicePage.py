@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *
 from helper_functions import *
 
 from widgets.pages.dice.DiceContainer import DiceContainer
+from widgets.pages.dice.DiceControlBar import DiceControlBar
 
 # Page for showing the dice and core gameplay
 class DicePage(QFrame):
@@ -15,16 +16,19 @@ class DicePage(QFrame):
 
         self.initUI()
 
-        self.updateLabels()
+        self.updateUI()
 
-    # Updates the text on labels
-    def updateLabels(self):
+    # Updates the text on labels and the dice display
+    def updateUI(self):
         self.playerLabel.setText(f"Player {self.parent.current_player + 1}'s turn")
 
         self.scoreLabel.setText(str(self.parent.points))
 
         # The rolls may need to be pluralized
         self.rollsLabel.setText(format_rolls_left(self.parent.rolls_left))
+
+        # Updates the dice displayed
+        self.diceContainer.updateUI()
 
     # Initializes the UI
     def initUI(self):
@@ -55,18 +59,16 @@ class DicePage(QFrame):
 
         # Creates the QFrame to hold the dice
         # This should only display when a turn is occurring
-        self.diceCentralArea = DiceContainer(self.parent)
+        self.diceContainer = DiceContainer(self.parent)
 
-        if self.parent.is_turn_occurring:
-            layout.addWidget(self.diceCentralArea, stretch=12)
-        else:
-            # If there is not a turn, add a blank widget as a spacer
-            layout.addWidget(QFrame(), stretch=12)
+        layout.addWidget(self.diceContainer, stretch=8)
+
+        # Extra QFrame is blank for now
+        layout.addWidget(QFrame(), stretch=4)
 
         # Creates the widget to handle rolling the dice
-        self.diceControlBar = QLabel("Dice control")
+        diceController = DiceControlBar(self.parent)
         
-        layout.addWidget(self.diceControlBar, stretch=4)
-
+        layout.addWidget(diceController, stretch=4)
 
         self.setLayout(layout)
