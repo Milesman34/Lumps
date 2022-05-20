@@ -5,6 +5,7 @@ class Die:
     def __init__(self, sides):
         self.sides = sides
         self.value = -1
+        self.locked = False
 
     def __repr__(self):
         return f"die(sides={self.sides}, value={self.value})"

@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import *
 
 from helper_functions import *
 
+from widgets.pages.dice.DiceContainer import DiceContainer
+
 # Page for showing the dice and core gameplay
 class DicePage(QFrame):
     def __init__(self, parent):
@@ -50,11 +52,14 @@ class DicePage(QFrame):
         self.informationDisplay.setLayout(infoLayout)
 
         # Creates the QFrame to hold the dice
-        self.diceCentralArea = QFrame()
+        self.diceCentralArea = DiceContainer(self.parent)
+
+        # Creates the widget to handle rolling the dice
         self.diceControlBar = QLabel("Dice control")
 
         layout.addWidget(self.informationDisplay, stretch=3)
-        layout.addWidget(self.diceCentralArea, stretch=16)
+        layout.addWidget(self.diceCentralArea, stretch=8)
+        layout.addWidget(QFrame(), stretch=8)
         layout.addWidget(self.diceControlBar, stretch=1)
 
         self.setLayout(layout)
