@@ -30,6 +30,9 @@ class DicePage(QFrame):
         # Updates the dice displayed
         self.diceContainer.updateUI()
 
+        # Updates the elements in the dice control bar
+        self.diceControlBar.updateUI()
+
     # Initializes the UI
     def initUI(self):
         layout = QVBoxLayout()
@@ -64,11 +67,11 @@ class DicePage(QFrame):
         layout.addWidget(self.diceContainer, stretch=8)
 
         # Extra QFrame is blank for now
-        layout.addWidget(QFrame(), stretch=4)
+        add_spacer(layout, 4)
 
         # Creates the widget to handle rolling the dice
-        diceController = DiceControlBar(self.parent)
+        self.diceControlBar = DiceControlBar(self.parent)
         
-        layout.addWidget(diceController, stretch=4)
+        layout.addWidget(self.diceControlBar, stretch=4)
 
         self.setLayout(layout)

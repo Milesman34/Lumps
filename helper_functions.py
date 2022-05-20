@@ -80,8 +80,12 @@ def format_rolls_left(rolls: int) -> str:
 
 # Creates a generic push button
 def create_push_button(parent, text: str, size: int=12) -> QPushButton:
-    button = QPushButton()
+    button = QPushButton(parent)
     button.setText(text)
     button.setFont(QFont("Arial", size))
 
     return button
+
+# Adds a spacer to a layout
+def add_spacer(layout, stretch: int=1):
+    layout.addWidget(QFrame(), stretch=stretch)

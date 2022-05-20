@@ -12,7 +12,7 @@ class DiceContainer(QFrame):
 
         self.parent = parent
 
-        self.updateUI()
+        self.initUI()
 
     # Updates the UI to show the current dice
     def updateUI(self):
@@ -28,3 +28,7 @@ class DiceContainer(QFrame):
             layout.addWidget(DieWidget(self.parent, die))
 
         self.setLayout(layout)
+
+    # Initializes the UI (the UI is always the same)
+    def initUI(self):
+        self.updateUI()

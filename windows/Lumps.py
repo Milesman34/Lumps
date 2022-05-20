@@ -100,16 +100,16 @@ class Lumps(QMainWindow):
     def populate_available_dice(self):
         self.available_dice = [Die(i) for i in self.default_dice]
 
+    # Returns if the player has rolls remaining
+    def has_rolls_remaining(self):
+        return self.rolls_left > 0
+
     # Attempts to roll the dice
     def roll_dice(self):
         # If there is no turn occurring, then it needs to populate the list of available dice
         if not self.is_turn_occurring:
             self.is_turn_occurring = True
             self.populate_available_dice()
-
-        # If there are no rolls left, then move to the next player
-        if self.rolls_left == 0:
-            self.end_turn()
         
         self.rolls_left -= 1
         self.roll_available()
@@ -121,8 +121,16 @@ class Lumps(QMainWindow):
 
     # Ends the current player's turn
     def end_turn(self):
-        self.current_player = (self.current_player + 1) & self.players
+        self.current_player = (self.current_player + 1) % self.players
         self.rolls_left = 3
+
+        self.is_turn_occurring = False
+
+        # Clears out the list of dice
+        self.available_dice = []
+        self.locked_dice = []
+
+        self.dicePage.updateUI()
 
     # Rolls all the available dice
     def roll_available(self):
