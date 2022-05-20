@@ -46,8 +46,12 @@ class Lumps(QMainWindow):
 
         self.available_dice = [Die(d) for d in self.default_dice]
         self.locked_dice = []
+
+        # Is a turn taking place
+        self.is_turn_occurring = False
         
         self.initUI()
+
 
     # Initializes the UI
     def initUI(self):
@@ -90,3 +94,10 @@ class Lumps(QMainWindow):
         mainWidget.setLayout(outerLayout)
 
         self.setCentralWidget(mainWidget)
+
+    # Rolls all the available dice
+    def roll_available(self):
+        for die in self.available_dice:
+            die.roll()
+
+        self.available_dice = sorted(self.available_dice, key=lambda e: e.value)

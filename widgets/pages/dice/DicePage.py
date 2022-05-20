@@ -51,15 +51,22 @@ class DicePage(QFrame):
 
         self.informationDisplay.setLayout(infoLayout)
 
+        layout.addWidget(self.informationDisplay, stretch=3)
+
         # Creates the QFrame to hold the dice
+        # This should only display when a turn is occurring
         self.diceCentralArea = DiceContainer(self.parent)
+
+        if self.parent.is_turn_occurring:
+            layout.addWidget(self.diceCentralArea, stretch=12)
+        else:
+            # If there is not a turn, add a blank widget as a spacer
+            layout.addWidget(QFrame(), stretch=12)
 
         # Creates the widget to handle rolling the dice
         self.diceControlBar = QLabel("Dice control")
+        
+        layout.addWidget(self.diceControlBar, stretch=4)
 
-        layout.addWidget(self.informationDisplay, stretch=3)
-        layout.addWidget(self.diceCentralArea, stretch=8)
-        layout.addWidget(QFrame(), stretch=8)
-        layout.addWidget(self.diceControlBar, stretch=1)
 
         self.setLayout(layout)
