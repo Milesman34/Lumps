@@ -109,8 +109,7 @@ class Lumps(QMainWindow):
 
         # If there are no rolls left, then move to the next player
         if self.rolls_left == 0:
-            self.current_player = (self.current_player + 1) % self.players
-            self.rolls_left = 3
+            self.end_turn()
         
         self.rolls_left -= 1
         self.roll_available()
@@ -119,6 +118,11 @@ class Lumps(QMainWindow):
 
         # Updates information labels on the dice page
         self.dicePage.updateUI()
+
+    # Ends the current player's turn
+    def end_turn(self):
+        self.current_player = (self.current_player + 1) & self.players
+        self.rolls_left = 3
 
     # Rolls all the available dice
     def roll_available(self):

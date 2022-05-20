@@ -1,6 +1,9 @@
 from collections import Counter
 from typing import List
 
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+
 # Returns the number of points that should be gotten from a given number of dice of a specific number
 # 10 points for 6 of a kind, 20 for 7 of a kind, 30 for 8 of a kind
 def points_from_pair(die: int, count: int) -> int:
@@ -74,3 +77,11 @@ def format_rolls_left(rolls: int) -> str:
         return "1 roll left"
     else:
         return f"{rolls} rolls left"
+
+# Creates a generic push button
+def create_push_button(parent, text: str, size: int=12) -> QPushButton:
+    button = QPushButton()
+    button.setText(text)
+    button.setFont(QFont("Arial", size))
+
+    return button
