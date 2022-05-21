@@ -25,7 +25,16 @@ class DicePage(QFrame):
         self.scoreLabel.setText(str(self.parent.points))
 
         # The rolls may need to be pluralized
-        self.rollsLabel.setText(format_rolls_left(self.parent.rolls_left))
+        # If there are 6 or more locked dice then the player cannot roll again anyway
+        self.rollsLabel.setText(format_rolls_left(self.parent.rolls_left if self.parent.num_locked_dice() < 6 else 0))
+
+        # This only needs to be updated in some scenarios (if the player needs to keep dice)
+        must_keep = self.parent.dice_must_keep()
+
+        if must_keep > 0:
+            self.diceToKeepLabel.setText(f"Keep {must_keep} dice this turn")
+        else:
+            self.diceToKeepLabel.setText("")
 
         # Updates the dice displayed
         self.diceContainer.updateUI()
@@ -52,9 +61,13 @@ class DicePage(QFrame):
         self.rollsLabel = QLabel()
         self.rollsLabel.setAlignment(Qt.AlignCenter)
 
+        self.diceToKeepLabel = QLabel()
+        self.diceToKeepLabel.setAlignment(Qt.AlignCenter)
+
         infoLayout.addWidget(self.playerLabel, stretch=1)
         infoLayout.addWidget(self.scoreLabel, stretch=3)
         infoLayout.addWidget(self.rollsLabel, stretch=1)
+        infoLayout.addWidget(self.diceToKeepLabel, stretch=1)
 
         self.informationDisplay.setLayout(infoLayout)
 
