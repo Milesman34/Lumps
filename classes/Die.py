@@ -17,3 +17,7 @@ class Die:
     def roll(self) -> int:
         self.value = random.randint(1, self.sides)
         return self.value
+
+    # Returns if the die will be locked during the next roll
+    def will_die_be_locked(self) -> bool:
+        return self.temp_locked and not self.locked

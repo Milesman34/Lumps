@@ -12,6 +12,11 @@ class DiceControlBar(QFrame):
 
         self.initUI()
 
+    # Attempts to roll the dice
+    def attemptDiceRoll(self):
+        if self.parent.can_roll_dice():
+            self.parent.roll_dice()
+
     # Updates the UI, so that only the needed buttons are displayed
     def updateUI(self):
         # Get rid of the original layout
@@ -23,7 +28,7 @@ class DiceControlBar(QFrame):
         # Button that handles die rolls
         self.diceRollButton = create_push_button(self.parent, "Roll Dice", 18)
 
-        self.diceRollButton.clicked.connect(self.parent.roll_dice)
+        self.diceRollButton.clicked.connect(self.attemptDiceRoll)
 
         # Button that ends the current turn
         self.endTurnButton = create_push_button(self.parent, "End Turn", 18)
@@ -41,7 +46,7 @@ class DiceControlBar(QFrame):
         if not self.parent.is_turn_occurring:
             layout.addWidget(self.diceRollButton, stretch=2)
             add_spacer(layout, 1)
-        elif self.parent.has_rolls_remaining():
+        elif self.parent.dice_must_keep() != -1:
             layout.addWidget(self.diceRollButton, stretch=2)
             layout.addWidget(self.endTurnButton, stretch=1)
         else:

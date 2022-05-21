@@ -46,7 +46,6 @@ class DieWidget(QFrame):
     def initUI(self):
         # Widget should have a fixed size
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.resize(80, 80)
 
         self.setObjectName("dieWidget")
 

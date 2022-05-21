@@ -152,3 +152,31 @@ class Lumps(QMainWindow):
         for die in self.dice:
             if not die.locked:
                 die.roll()
+
+    # Returns the number of locked dice
+    def num_locked_dice(self) -> int:
+        return len([i for i in self.dice if i.locked])
+
+    # Returns how many dice the player must keep (-1 if there are no remaining dice)
+    def dice_must_keep(self) -> int:
+        if self.rolls_left == 3:
+            return 0
+        elif self.rolls_left == 2:
+            return 4
+        # You have to keep 2 dice on the 2nd turn, so if that isn't possible the turn ends next
+        elif self.rolls_left == 1 and self.num_locked_dice() < 6:
+            return 2
+        else:
+            return -1
+
+    # Returns if the player can roll the dice
+    def can_roll_dice(self) -> bool:
+        must_keep = self.dice_must_keep()
+
+        # -1 means the player has no more choices
+        if must_keep == -1:
+            return False
+
+        # Whether the player can roll depends on if they have locked as many dice this turn as required
+        return len([i for i in self.dice if i.will_die_be_locked()]) >= self.dice_must_keep()
+
