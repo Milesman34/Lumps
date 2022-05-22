@@ -9,6 +9,7 @@ from widgets.bottom_bar.BottomBar import BottomBar
 from widgets.score_bar.ScoreBar import ScoreBar
 
 from widgets.pages.dice.DicePage import DicePage
+from widgets.pages.scoreboard.ScoreboardPage import ScoreboardPage
 
 import enums
 
@@ -74,9 +75,10 @@ class Lumps(QMainWindow):
 
         # Adds the two currently existing pages (pages not implemented yet)
         self.dicePage = DicePage(self)
+        self.scoreboardPage = ScoreboardPage(self)
 
         self.centralPageWidget.addWidget(self.dicePage)
-        self.centralPageWidget.addWidget(QLabel("Scoreboard"))
+        self.centralPageWidget.addWidget(self.scoreboardPage)
 
         # Sets the current page
         self.centralPageWidget.setCurrentIndex(enums.AppPage.DICE.value)
