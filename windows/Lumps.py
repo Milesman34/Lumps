@@ -3,7 +3,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from classes.Die import Die
-from helper_functions import calculate_lumps_score
+from helper_functions import *
 
 from widgets.bottom_bar.BottomBar import BottomBar
 from widgets.score_bar.ScoreBar import ScoreBar
@@ -25,35 +25,11 @@ class Lumps(QMainWindow):
         # Current page in the app
         self.current_page = enums.AppPage.DICE
 
-        # Current number of points
-        self.points = 0
-
-        # Current number of rolls left
-        self.rolls_left = 3
-
-        # Index of current player
-        self.current_player = 0
-
         # Number of players
         self.players = players
 
-        # Scores from each player
-        self.scores = [0] * self.players
-
-        # List of dice to create
-        self.default_dice = [4, 4, 6, 6, 8, 8, 10, 10]
-
-        # List of dice, both the available and locked ones
-        self.number_of_dice = 8
-
-        self.dice = []
-        self.reset_dice()
-
-        # Is a turn taking place
-        self.is_turn_occurring = False
-
-        # Current scoreboard (2d array)
-        self.scoreboard = [[None] for i in range(self.players)]
+        # Starts the new game
+        self.start_new_game()
         
         self.initUI()
 
@@ -66,8 +42,19 @@ class Lumps(QMainWindow):
         outerLayout.setContentsMargins(0, 0, 0, 0)
 
         # Creates the top bar and gives it a border
-        upperTabBar = QLabel("Upper Part")
-        upperTabBar.setStyleSheet("background-color: rgb(235, 235, 235); border-bottom: 2px solid black;")
+        upperTabBar = QFrame()
+        upperTabBar.setObjectName("upperTabBar")
+        upperTabBar.setStyleSheet("QFrame#upperTabBar {background-color: rgb(235, 235, 235); border-bottom: 2px solid black;}")
+
+        upperTabLayout = QHBoxLayout()
+
+        newGameButton = QPushButton()
+        newGameButton.setText("New Game")
+
+        upperTabLayout.addWidget(newGameButton, stretch=2)
+        add_spacer(upperTabLayout, stretch=12)
+
+        upperTabBar.setLayout(upperTabLayout)
 
         # Creates the scores area
         self.scoresBar = ScoreBar(self)
@@ -99,6 +86,35 @@ class Lumps(QMainWindow):
         mainWidget.setLayout(outerLayout)
 
         self.setCentralWidget(mainWidget)
+
+    # Starts a new game
+    def start_new_game(self):
+        # Current number of points
+        self.points = 0
+
+        # Current number of rolls left
+        self.rolls_left = 3
+
+        # Index of current player
+        self.current_player = 0
+
+        # Scores from each player
+        self.scores = [0] * self.players
+
+        # List of dice to create
+        self.default_dice = [4, 4, 6, 6, 8, 8, 10, 10]
+
+        # List of dice, both the available and locked ones
+        self.number_of_dice = 8
+
+        self.dice = []
+        self.reset_dice()
+
+        # Is a turn taking place
+        self.is_turn_occurring = False
+
+        # Current scoreboard (2d array)
+        self.scoreboard = [[None] for i in range(self.players)]
 
     # Resets the values of the current dice
     def reset_dice(self):
