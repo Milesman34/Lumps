@@ -28,8 +28,28 @@ class Lumps(QMainWindow):
         # Number of players
         self.players = players
 
-        # Starts the new game
-        self.start_new_game()
+        # Current number of points
+        self.points = 0
+
+        # Current number of rolls left
+        self.rolls_left = 3
+
+        # Index of current player
+        self.current_player = 0
+
+        # Scores from each player
+        self.scores = [0] * self.players
+
+        # List of dice to create
+        self.default_dice = [4, 4, 6, 6, 8, 8, 10, 10]
+
+        self.dice = []
+
+        # Is a turn taking place
+        self.is_turn_occurring = False
+
+        # Current scoreboard (2d array)
+        self.scoreboard = [[None] for i in range(self.players)]
         
         self.initUI()
 
@@ -50,6 +70,7 @@ class Lumps(QMainWindow):
 
         newGameButton = QPushButton()
         newGameButton.setText("New Game")
+        newGameButton.clicked.connect(self.start_new_game)
 
         upperTabLayout.addWidget(newGameButton, stretch=2)
         add_spacer(upperTabLayout, stretch=12)
@@ -89,23 +110,12 @@ class Lumps(QMainWindow):
 
     # Starts a new game
     def start_new_game(self):
-        # Current number of points
         self.points = 0
-
-        # Current number of rolls left
         self.rolls_left = 3
 
-        # Index of current player
         self.current_player = 0
 
-        # Scores from each player
         self.scores = [0] * self.players
-
-        # List of dice to create
-        self.default_dice = [4, 4, 6, 6, 8, 8, 10, 10]
-
-        # List of dice, both the available and locked ones
-        self.number_of_dice = 8
 
         self.dice = []
         self.reset_dice()
@@ -115,6 +125,11 @@ class Lumps(QMainWindow):
 
         # Current scoreboard (2d array)
         self.scoreboard = [[None] for i in range(self.players)]
+
+        self.scoresBar.updateUI()
+
+        self.dicePage.updateUI()
+        self.scoreboardPage.updateUI()
 
     # Resets the values of the current dice
     def reset_dice(self):
