@@ -48,6 +48,9 @@ class Lumps(QMainWindow):
         # Is a turn taking place
         self.is_turn_occurring = False
 
+        # Is there a winner yet
+        self.is_winner = False
+
         # Current scoreboard (2d array)
         self.scoreboard = [[None] for i in range(self.players)]
         
@@ -120,10 +123,9 @@ class Lumps(QMainWindow):
         self.dice = []
         self.reset_dice()
 
-        # Is a turn taking place
         self.is_turn_occurring = False
+        self.is_winner = False
 
-        # Current scoreboard (2d array)
         self.scoreboard = [[None] for i in range(self.players)]
 
         self.scoresBar.updateUI()
@@ -164,8 +166,8 @@ class Lumps(QMainWindow):
         # Updates information labels on the dice page
         self.dicePage.updateUI()
 
-    # Adds points to the current player's index
-    def add_points(self):
+    # Adds points to the current player's index, returning their new total
+    def add_points(self) -> int:
         # Adds the current running score to the current player's score
         self.scores[self.current_player] += self.points
 
@@ -183,9 +185,12 @@ class Lumps(QMainWindow):
         else:
             scoreboard[-1] = scoreboard[-2] + self.points
 
+        return scoreboard[-1]
+
     # Ends the current player's turn
     def end_turn(self):
-        self.add_points()
+        new_points = self.add_points()
+        player = self.current_player + 1
 
         # Updates who the player is
         self.current_player = (self.current_player + 1) % self.players
@@ -204,6 +209,16 @@ class Lumps(QMainWindow):
 
         self.dicePage.updateUI()
         self.scoreboardPage.updateUI()
+
+        # Creates a dialog if a player won, asking if a new game should start
+        if new_points >= 100 and not self.is_winner:
+            self.is_winner = True
+
+            msg = QMessageBox.question(self, f"Player {player} wins!", "Start new game?", QMessageBox.Yes | QMessageBox.No)
+
+            if msg == QMessageBox.Yes:
+                self.start_new_game()
+
 
     # Rolls all the available dice
     def roll_available(self):
