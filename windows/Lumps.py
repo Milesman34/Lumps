@@ -51,9 +51,11 @@ class Lumps(QMainWindow):
 
         # Is a turn taking place
         self.is_turn_occurring = False
+
+        # Current scoreboard (2d array)
+        self.scoreboard = [[None] for i in range(self.players)]
         
         self.initUI()
-
 
     # Initializes the UI
     def initUI(self):
@@ -106,6 +108,10 @@ class Lumps(QMainWindow):
     def has_rolls_remaining(self):
         return self.rolls_left > 0
 
+    # Gets the number of turns that have occurred
+    def num_turns(self):
+        return len(self.scoreboard[0])
+
     # Attempts to roll the dice
     def roll_dice(self):
         # If there is no turn occurring, then it needs to populate the list of available dice
@@ -127,10 +133,28 @@ class Lumps(QMainWindow):
         # Updates information labels on the dice page
         self.dicePage.updateUI()
 
-    # Ends the current player's turn
-    def end_turn(self):
+    # Adds points to the current player's index
+    def add_points(self):
         # Adds the current running score to the current player's score
         self.scores[self.current_player] += self.points
+
+        # Reference to current scoreboard to update
+        scoreboard = self.scoreboard[self.current_player]
+
+        # If the current line in the scoreboard is already filled, add a new one
+        if scoreboard[-1] is not None:
+            for player in range(self.players):
+                self.scoreboard[player].append(None)
+
+        # Updates the scoreboard
+        if self.num_turns() == 1:
+            scoreboard[0] = self.points
+        else:
+            scoreboard[-1] = scoreboard[-2] + self.points
+
+    # Ends the current player's turn
+    def end_turn(self):
+        self.add_points()
 
         # Updates who the player is
         self.current_player = (self.current_player + 1) % self.players
@@ -148,6 +172,7 @@ class Lumps(QMainWindow):
         self.locked_dice = []
 
         self.dicePage.updateUI()
+        self.scoreboardPage.updateUI()
 
     # Rolls all the available dice
     def roll_available(self):

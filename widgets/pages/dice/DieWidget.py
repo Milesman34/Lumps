@@ -31,7 +31,6 @@ class DieWidget(QFrame):
     def leaveEvent(self, event):
         if not self.die.locked:
             self.setStyleSheet("QFrame#dieWidget {background-color: rgb(235, 235, 235); border: 2px solid black;}")
-        pass
 
     # Toggles if the die is locked, but it won't be permanently locked until the roll dice button is clicked
     def toggleLock(self):
