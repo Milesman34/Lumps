@@ -9,7 +9,7 @@ import sys
 def main_window():
     app = QApplication(sys.argv)
 
-    # Gets the nubmer of players from the user
+    # Gets the number of players from the user
     players_dialog = PlayerCountDialog(1, 8)
 
     # Creates the new window if the count was valid

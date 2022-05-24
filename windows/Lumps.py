@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import *
 from classes.Die import Die
 from helper_functions import *
 
+from windows.PlayerCountDialog import PlayerCountDialog
+
 from widgets.bottom_bar.BottomBar import BottomBar
 from widgets.score_bar.ScoreBar import ScoreBar
 
@@ -113,6 +115,12 @@ class Lumps(QMainWindow):
 
     # Starts a new game
     def start_new_game(self):
+        # Gets the number of players from the user
+        players_dialog = PlayerCountDialog(1, 8)
+
+        if players_dialog.count != -1:
+            self.players = players_dialog.count
+
         self.points = 0
         self.rolls_left = 3
 
